@@ -10,15 +10,3 @@
 [build.environment]
   FLASK_ENV = "production"
   DATABASE_URL = "sqlite:///instance/commissary.db"
-
-# Remove the redirect rule since we're not using API routes
-# [[redirects]]
-#   from = "/*"
-#   to = "/api/index.html"
-#   status = 200
-
-# Add Python-specific build settings
-[build]
-  command = "pip install -r requirements.txt"
-  publish = "templates"
-  base = "/"
