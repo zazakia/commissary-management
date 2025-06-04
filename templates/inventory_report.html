@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Inventory Report</h2>
+    
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Items</h5>
+                    <p class="card-text display-6">{{ total_items }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Value</h5>
+                    <p class="card-text display-6">${{ "%.2f"|format(total_value) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Low Stock Items</h5>
+                    <p class="card-text display-6">{{ low_stock_items|length }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory by Branch -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Inventory by Branch</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Total Items</th>
+                            <th>Total Value</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for branch_name, branch_data in inventory_by_branch %}
+                        <tr>
+                            <td>{{ branch_name }}</td>
+                            <td>{{ branch_data.total_items }}</td>
+                            <td>${{ "%.2f"|format(branch_data.total_value) }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" 
+                                        type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#branch-details-{{ loop.index }}"
+                                        aria-expanded="false"
+                                        aria-controls="branch-details-{{ loop.index }}">
+                                    View Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="collapse" id="branch-details-{{ loop.index }}">
+                                    <div class="card card-body mt-2">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit</th>
+                                                    <th>Cost Price</th>
+                                                    <th>Selling Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in branch_data.items %}
+                                                <tr>
+                                                    <td>{{ item.product_name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.unit }}</td>
+                                                    <td>${{ "%.2f"|format(item.cost_price) }}</td>
+                                                    <td>${{ "%.2f"|format(item.selling_price) }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Low Stock Items -->
+    {% if low_stock_items %}
+    <div class="card">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Low Stock Items (Quantity < 10)</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Branch</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Cost Price</th>
+                            <th>Selling Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in low_stock_items %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.branch.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.unit }}</td>
+                            <td>${{ "%.2f"|format(item.cost_price) }}</td>
+                            <td>${{ "%.2f"|format(item.selling_price) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

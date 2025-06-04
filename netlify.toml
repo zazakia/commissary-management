@@ -1,0 +1,16 @@
+[build]
+  base = "/"
+  publish = "templates"
+  command = "pip install -r requirements.txt"
+
+[functions]
+  node_version = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/api/index.html"
+  status = 200
+
+[build.environment]
+  FLASK_ENV = "production"
+  DATABASE_URL = "sqlite:///instance/commissary.db"

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Expense Report</h2>
+    
+    <!-- Total Expenses -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Total Expenses</h3>
+            <h2 class="text-primary">{{ "%.2f"|format(total_expenses) }}</h2>
+        </div>
+    </div>
+
+    <!-- Expenses by Category -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Expenses by Category</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category, amount in expenses_by_category %}
+                        <tr>
+                            <td>{{ category }}</td>
+                            <td>{{ "%.2f"|format(amount) }}</td>
+                            <td>{{ "%.1f"|format((amount/total_expenses)*100) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expenses by Branch -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Expenses by Branch</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Amount</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for branch, amount in expenses_by_branch %}
+                        <tr>
+                            <td>{{ branch }}</td>
+                            <td>{{ "%.2f"|format(amount) }}</td>
+                            <td>{{ "%.1f"|format((amount/total_expenses)*100) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Expenses -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Recent Expenses</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Branch</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Attachment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses[:10] %}
+                        <tr>
+                            <td>{{ expense.date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ expense.branch.name }}</td>
+                            <td>{{ expense.category }}</td>
+                            <td>{{ "%.2f"|format(expense.amount) }}</td>
+                            <td>{{ expense.description }}</td>
+                            <td>
+                                {% if expense.attachment %}
+                                <a href="{{ url_for('uploaded_file', filename=expense.attachment) }}" target="_blank">
+                                    <i class="bi bi-paperclip"></i>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
