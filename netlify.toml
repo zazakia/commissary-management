@@ -3,33 +3,20 @@
   publish = "templates"
   command = "pip install -r requirements.txt"
   context = "production"
+  node = false
+  npm = false
+  yarn = false
+  npm_ci = false
+  python = true
+  python_version = "3.11"
+  venv = true
+  framework = "flask"
+  build_command = "pip install -r requirements.txt"
+  publish_dir = "templates"
+  base_directory = "/"
 
 [build.environment]
   FLASK_ENV = "production"
   DATABASE_URL = "sqlite:///instance/commissary.db"
   SECRET_KEY = "${SECRET_KEY:-your-secret-key-here}"
-
-# Database configuration
-[build.environment]
-  DATABASE_URL = "sqlite:///instance/commissary.db"
   DATABASE_TYPE = "sqlite"
-
-# Explicitly disable Node.js processing
-[build]
-  node = false
-  npm = false
-  yarn = false
-  npm_ci = false
-
-# Python settings
-[build]
-  python = true
-  python_version = "3.11"
-  venv = true
-
-# Framework settings
-[build]
-  framework = "flask"
-  build_command = "pip install -r requirements.txt"
-  publish_dir = "templates"
-  base_directory = "/"
