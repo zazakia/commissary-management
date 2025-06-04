@@ -1,13 +1,19 @@
 [build]
   base = "/"
   publish = "templates"
-  command = "pip install -r requirements.txt"
+  command = "python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
   context = "production"
-  python = true
-  python_version = "3.10"
-  venv = true
 
 [build.environment]
   FLASK_ENV = "production"
   DATABASE_URL = "sqlite:///instance/commissary.db"
   SECRET_KEY = "${SECRET_KEY:-your-secret-key-here}"
+
+[functions]
+  python = true
+  python_version = "3.10"
+
+[functions.build]
+  command = "pip install -r requirements.txt"
+  publish = "templates"
+  base = "/"

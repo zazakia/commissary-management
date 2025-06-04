@@ -1,8 +1,5 @@
 {
   "name": "commissary-management",
   "version": "1.0.0",
-  "private": true,
-  "engines": {
-    "node": "false"
-  }
+  "private": true
 }
