@@ -1,14 +1,21 @@
 [build]
   base = "/"
   publish = "templates"
-  command = "pip install -r requirements.txt && python -c 'import app; app.app.run()'"
-  node_version = false
+  command = "pip install -r requirements.txt"
   node = false
   npm = false
   yarn = false
   npm_ci = false
   functions = false
   plugins = []
+  python_version = "3.11"
+  python = true
+  venv = true
+  context = "production"
+  framework = "flask"
+  build_command = "pip install -r requirements.txt"
+  publish_dir = "templates"
+  base_directory = "/"
 
 [build.environment]
   FLASK_ENV = "production"
