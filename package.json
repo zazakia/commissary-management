@@ -2,7 +2,7 @@
   "name": "commissary-management",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "start": "python app.py"
+  "engines": {
+    "node": "false"
   }
 }
