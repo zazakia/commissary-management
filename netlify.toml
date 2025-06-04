@@ -9,6 +9,11 @@
   DATABASE_URL = "sqlite:///instance/commissary.db"
   SECRET_KEY = "${SECRET_KEY:-your-secret-key-here}"
 
+# Database configuration
+[build.environment]
+  DATABASE_URL = "sqlite:///instance/commissary.db"
+  DATABASE_TYPE = "sqlite"
+
 # Explicitly disable Node.js processing
 [build]
   node = false
