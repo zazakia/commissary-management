@@ -4,7 +4,8 @@
   command = "pip install -r requirements.txt"
 
 [functions]
-  node_version = "18"
+  [functions.node_version]
+    version = "18"
 
 [[redirects]]
   from = "/*"
