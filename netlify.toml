@@ -8,12 +8,27 @@
   DATABASE_URL = "sqlite:///instance/commissary.db"
   SECRET_KEY = "${SECRET_KEY:-your-secret-key-here}"
 
-# Python-specific configuration
+# Configure Netlify to use Python
 [build]
-  command = "pip install -r requirements.txt && python app.py"
+  command = "pip install -r requirements.txt"
   publish = "templates"
   base = "/"
 
-# Disable Netlify's Node.js build processing
+# Disable Node.js build processing
 [build]
   node_version = false
+
+# Add Python-specific build settings
+[build]
+  command = "pip install -r requirements.txt && python -c 'import app; app.app.run()'"
+  publish = "templates"
+  base = "/"
+
+# Remove any default Netlify settings
+[build]
+  functions = false
+  plugins = []
+  node = false
+  npm = false
+  yarn = false
+  npm_ci = false
