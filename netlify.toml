@@ -3,10 +3,17 @@
   publish = "templates"
   command = "pip install -r requirements.txt"
 
-[functions]
-  [functions.node_version]
-    version = "18"
-
 [build.environment]
   FLASK_ENV = "production"
   DATABASE_URL = "sqlite:///instance/commissary.db"
+  SECRET_KEY = "${SECRET_KEY:-your-secret-key-here}"
+
+# Python-specific configuration
+[build]
+  command = "pip install -r requirements.txt && python app.py"
+  publish = "templates"
+  base = "/"
+
+# Disable Netlify's Node.js build processing
+[build]
+  node_version = false
